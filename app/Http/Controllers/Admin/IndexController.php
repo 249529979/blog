@@ -34,35 +34,40 @@ class IndexController extends CommonController {
     }
 
     /**
+     * 显示更改密码
+     * @return mixed
+     */
+    public function password() {
+        return view('admin.index.password');
+    }
+
+    /**
      * 更改密码
      * @return mixed
      */
-    public function changePwd() {
-        if ($input = Input::all()) {
-            $rules = [
-                'password' => 'required|between:6,20|confirmed',
-            ];
-            $message = [
-                'password.required' => '新密码不能为空!',
-                'password.between' => '新密码必须在6-20位之间',
-                'password.confirmed' => '新密码和确认密码不一致',
-            ];
-            $validator = Validator::make($input, $rules, $message);
-            if ($validator->passes()) {
-                $user = User::where('username', session('user.username'))->first();
-                $password = Crypt::decrypt($user->password);
-                if ($input['password_o'] == $password) {
-                    $user->password = Crypt::encrypt($input['password']);
-                    $user->update();
-                    return back()->with('errors', '密码修改成功!');
-                } else {
-                    return back()->with('errors', '原密码错误');
-                }
+    public function changePwd(){
+        $input = Input::all();
+        $rules = [
+            'password' => 'required|between:6,20|confirmed',
+        ];
+        $message = [
+            'password.required' => '新密码不能为空!',
+            'password.between' => '新密码必须在6-20位之间',
+            'password.confirmed' => '新密码和确认密码不一致',
+        ];
+        $validator = Validator::make($input, $rules, $message);
+        if ($validator->passes()) {
+            $user = User::where('username', session('user.username'))->first();
+            $password = Crypt::decrypt($user->password);
+            if ($input['password_o'] == $password) {
+                $user->password = Crypt::encrypt($input['password']);
+                $user->update();
+                return back()->with('errors', '密码修改成功!');
             } else {
-                return back()->withErrors($validator);
+                return back()->with('errors', '原密码错误');
             }
         } else {
-            return view('admin.index.password');
+            return back()->withErrors($validator);
         }
     }
 

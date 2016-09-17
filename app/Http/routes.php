@@ -27,7 +27,8 @@ Route::group(['middleware' => ['web']], function () {
 Route::group(['middleware' => ['web', 'admin.login'], 'prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::get('index', 'IndexController@index');                               //后台首页
     Route::get('info', 'IndexController@info');                                 //后台欢迎页
-    Route::any('changePwd', 'IndexController@changePwd');                       //后台更改密码
+    Route::get('password', 'IndexController@password');                         //后台显示更改密码
+    Route::post('changePwd', 'IndexController@changePwd');                      //后台更改密码
     Route::get('logout', 'IndexController@logout');                             //后台退出登录
     Route::resource('category', 'CategoryController');                          //后台分类
     Route::post('category/changeSort', 'CategoryController@changeSort');        //后台分类异步排序

@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Input;
 class LoginController extends CommonController {
 
     /**
-     * 登陆显示页面及验证登录
+     * 登陆显示页面
      * @return mixed
      */
     public function index() {
@@ -31,6 +31,10 @@ class LoginController extends CommonController {
 
     }
 
+    /**
+     * 验证登录
+     * @return mixed
+     */
     public function check() {
         $input = Input::all();
         //验证验证码
